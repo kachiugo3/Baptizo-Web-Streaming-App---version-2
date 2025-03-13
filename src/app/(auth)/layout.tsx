@@ -1,9 +1,10 @@
-const defaultLayout = ({children}: any) => {
+const defaultLayout = ({children}: {children: React.ReactNode}) => {
   return (
-    <div>
-      AuthLayout
-      {children}
-    </div>
+    <html lang='en'>
+      <body>
+        <main>{children}</main>
+      </body>
+    </html>
   );
 };
 

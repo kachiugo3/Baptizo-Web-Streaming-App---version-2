@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        anton: "var(--font-anton-sans)",
+        aileron: ["Aileron", "sans-serif"],
       },
       colors: {
         brand: {
