@@ -1,4 +1,4 @@
-const defaultLayout = ({children}: {children: React.ReactNode}) => {
+const authLayout = ({children}: {children: React.ReactNode}) => {
   return (
     <html lang='en'>
       <body>
@@ -8,4 +8,4 @@ const defaultLayout = ({children}: {children: React.ReactNode}) => {
   );
 };
 
-export default defaultLayout;
+export default authLayout;

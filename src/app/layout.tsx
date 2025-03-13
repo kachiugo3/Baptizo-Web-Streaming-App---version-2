@@ -24,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`!font-aileron antialiased`}>{children}</body>
+      <body className={`!font-aileron antialiased bg-[#F3F3F3]`}>
+        {children}
+      </body>
     </html>
   );
 }
