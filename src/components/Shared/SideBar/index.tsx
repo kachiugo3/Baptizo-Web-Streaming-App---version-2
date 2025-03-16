@@ -24,6 +24,7 @@ import {
 } from "../Icons";
 import {usePathname} from "next/navigation";
 import {useMemo} from "react";
+import {ModeToggle} from "../ThemeSwitcher";
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
   const pathName = usePathname();
@@ -65,7 +66,11 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
   );
 
   return (
-    <Sidebar collapsible='icon' {...props} className='py-[30px] px-4 '>
+    <Sidebar
+      collapsible='icon'
+      {...props}
+      className='py-[30px] px-4 !overflow-hidden hideScrollBar !border-r-slate-200 dark:!border-r-[#403f3f9f] '
+    >
       <SidebarHeader className='flex items-center justify-between '>
         <Image
           src='/img/baptizo_light.webp'
@@ -89,11 +94,13 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                   <div className='w-full flex items-center'>
                     <div className=" className='!h-8 !w-8'">
                       <project.icon
-                        className={`${project.isActive && "w-5 h-5 mr-1"}`}
+                        className={`${project.isActive && "w-5 h-5 mr-1 "}`}
                       />
                     </div>
                     {project.isActive && (
-                      <span className='text-xs'>{project.title}</span>
+                      <span className='text-xs dark:text-black'>
+                        {project.title}
+                      </span>
                     )}
                   </div>
                 </Link>
@@ -103,11 +110,14 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>
-        <Button variant='ghost' asChild>
-          <div className='rounded-full !border border-black !p-1'>
-            <ArrowRight />
-          </div>
-        </Button>
+        <div className='flex flex-col flex-1 gap-y-2 items-center '>
+          <ModeToggle />
+          <Button variant='ghost' asChild>
+            <div className='!rounded-full w-10 h-10 !bg-white dark:!bg-transparent !border !border-border !p-1'>
+              <ArrowRight />
+            </div>
+          </Button>
+        </div>
       </SidebarFooter>
     </Sidebar>
   );

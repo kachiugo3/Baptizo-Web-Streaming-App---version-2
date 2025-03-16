@@ -25,16 +25,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <ThemeProvider
-        attribute='class'
-        defaultTheme='system'
-        enableSystem
-        disableTransitionOnChange
-      >
-        <body className={`!font-aileron antialiased bg-[#F3F3F3]`}>
+      <body className={`!font-aileron antialiased bg-background`}>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem={false}
+          disableTransitionOnChange
+        >
           {children}
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

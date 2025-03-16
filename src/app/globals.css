@@ -47,7 +47,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #ffffff;
+  --background: rgba(243, 243, 243, 1);
   --border: #9498a3;
   --foreground: #1f1f1f;
   --card: oklch(1 0 0);
@@ -76,12 +76,12 @@
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.968 0.007 247.896);
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-border: rgba(243, 243, 243, 0.2);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
 
 .dark {
-  --background: #292d32;
+  --background: rgba(41, 45, 50, 1);
   --border: #9498a3;
   --foreground: #ffffff;
   --primary: #02fe0a;
@@ -110,7 +110,7 @@
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.279 0.041 260.031);
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-border: rgba(41, 45, 50, 1);
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
@@ -150,6 +150,11 @@
     @apply bg-background text-foreground;
   }
 } */
+.hideScrollBar {
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+}
 
 @layer base {
   * {
