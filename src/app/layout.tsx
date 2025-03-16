@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import "./globals.css";
+import {ThemeProvider} from "@/components/Shared/Theme-provider";
 // import {Geist, Geist_Mono} from "next/font/google";
 
 // const geistSans = Geist({
@@ -23,10 +24,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={`!font-aileron antialiased bg-[#F3F3F3]`}>
-        {children}
-      </body>
+    <html lang='en' suppressHydrationWarning>
+      <ThemeProvider
+        attribute='class'
+        defaultTheme='system'
+        enableSystem
+        disableTransitionOnChange
+      >
+        <body className={`!font-aileron antialiased bg-[#F3F3F3]`}>
+          {children}
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
