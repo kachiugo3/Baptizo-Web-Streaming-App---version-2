@@ -1,5 +1,5 @@
 "use client";
-// import {toast} from "sonner";
+
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -14,15 +14,50 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// import {PasswordInput} from "@/components/ui/password-input";
 import TextField from "../Elements/TextField";
+import {PasswordRegex} from "@/services/constants";
+import {Checkbox} from "@/components/ui/checkbox";
+import Link from "next/link";
+import {Label} from "@/components/ui/label";
+import {Separator} from "@/components/ui/separator";
+import Image from "next/image";
 
-const formSchema = z.object({
-  fullName: z.string().min(1).min(8).max(30),
-  email: z.string(),
-  password: z.string(),
-  confirmPassword: z.string(),
-});
+const formSchema = z
+  .object({
+    fullName: z
+      .string({
+        required_error: "Please enter your full name",
+      })
+      .min(8, "Full name must be at least 8 characters")
+      .max(30, "Full name must be at most 30 characters"),
+
+    email: z
+      .string({
+        required_error: "Please enter your email",
+      })
+      .email("Please enter a valid email"),
+
+    password: z
+      .string({
+        required_error: "Password is required",
+      })
+      .regex(
+        PasswordRegex,
+        "Password must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character",
+      ),
+
+    confirmPassword: z.string({
+      required_error: "Confirm Password is required",
+    }),
+
+    terms: z.boolean().refine((value) => value === true, {
+      message: "You must accept our terms and conditions",
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"], // Targets the confirmPassword field for errors
+    message: "Passwords must match",
+  });
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -32,20 +67,14 @@ export default function LoginForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       console.log(values);
-      //   toast(
-      //     <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-      //       <code className='text-white'>{JSON.stringify(values, null, 2)}</code>
-      //     </pre>,
-      //   );
     } catch (error) {
       console.error("Form submission error", error);
-      //   toast.error("Failed to submit the form. Please try again.");
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
         <TextField
           control={form.control}
           name='fullName'
@@ -77,8 +106,67 @@ export default function LoginForm() {
           type='password'
         />
 
-        <Button type='submit'>Submit</Button>
+        <FormField
+          control={form.control}
+          name='terms'
+          render={({field}) => (
+            <FormItem className='flex -mt-3 space-x-0 items-center space-y-0'>
+              <FormControl className='cursor-pointer'>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className='space-y-1 leading-[140%] text-sm text-[#9498A3]'>
+                By clicking create account you agree to Enfi{" "}
+                <span className='whitespace-nowrap text-foreground !font-semibold'>
+                  Terms of use
+                </span>{" "}
+                and{" "}
+                <span className='whitespace-nowrap text-foreground !font-semibold'>
+                  and Privacy policy
+                </span>
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <Button type='submit' size='lg' className='w-full'>
+          Sign up
+        </Button>
+
+        <div className='flex justify-center items-center w-full'>
+          <div className='w-[100px] bg-[#98999cb0] h-[1px]'></div>
+          <p className='px-3 !text-[#98999cb0] text-xs'>OR</p>
+          <div className='w-[100px] bg-[#98999cb0]  h-[1px]'></div>
+        </div>
+
+        <Button variant='outline' size='lg' className='w-full'>
+          <Image
+            src='/img/google_icon.webp'
+            width='20'
+            height='20'
+            alt='google_auth_logo'
+          />
+          <p> Sign up with google </p>
+        </Button>
+        <Button variant='outline' size='lg' className='w-full'>
+          <Image
+            src='/img/apple_icon.webp'
+            width='20'
+            height='20'
+            alt='google_auth_logo'
+          />
+          <p> Sign up with google </p>
+        </Button>
       </form>
+
+      <div className='flex flex-1 justify-center mt-2 text-foreground'>
+        Already have an account?{" "}
+        <Link href='/login' className='font-bold ml-1'>
+          Login
+        </Link>
+      </div>
     </Form>
   );
 }
