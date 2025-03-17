@@ -6,8 +6,8 @@ const authLayout = ({children}: {children: React.ReactNode}) => {
       <body>
         <main>
           <div className='flex flex-1 h-screen'>
-            <div className='w-5/12'>{children}</div>
-            <div className='w-7/12 relative'>
+            <div className='w-3/6'>{children}</div>
+            <div className='w-3/6 relative'>
               <div className='absolute left-[80px] bottom-[200px] !max-w-[543px]'>
                 <h2 className='text-white text-5xl font-bold line'>
                   Adventure Starts Here

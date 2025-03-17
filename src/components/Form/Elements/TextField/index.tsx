@@ -28,8 +28,10 @@ const TextField = ({
       control={control}
       name={name}
       render={({field}) => (
-        <FormItem>
-          <FormLabel>{label}</FormLabel>
+        <FormItem className='relative'>
+          <FormLabel className='absolute left-3 -top-1 bg-background px-2 text-[#9498A3]'>
+            {label}
+          </FormLabel>
           <FormControl>
             <Input placeholder={placeholder} {...field} />
           </FormControl>

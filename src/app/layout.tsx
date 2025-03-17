@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import "./globals.css";
 import {ThemeProvider} from "@/components/Shared/Theme-provider";
+import {Toaster} from "@/components/ui/sonner";
 // import {Geist, Geist_Mono} from "next/font/google";
 
 // const geistSans = Geist({
@@ -33,6 +34,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
