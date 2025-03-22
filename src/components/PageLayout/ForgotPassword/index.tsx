@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import LoginForm from "@/components/Form/LoginForm";
 import {useMemo, useState} from "react";
+import EmailStep from "@/components/Form/EmailStepForm";
+import {InputOTPForm} from "@/components/Form/OTPForm";
 
 const ForgotPasswordLayout = () => {
   const [step, setStep] = useState(1);
@@ -34,7 +35,7 @@ const ForgotPasswordLayout = () => {
 
   return (
     <div className='flex flex-col p-5 lg:p-0 flex-1 pt-5 justify-center items-center overflow-y-scroll'>
-      <div className='max-h-[95vh]'>
+      <div className='max-h-[95vh] w-full max-w-[390px] '>
         <div className='flex flex-col items-center justify-between '>
           <Image
             src='/img/baptizo_light.webp'
@@ -46,8 +47,9 @@ const ForgotPasswordLayout = () => {
           <p className='text-base'>{headerText.subtitle}</p>
         </div>
 
-        <div className='w-full flex  items-center justify-center '>
-          <LoginForm />
+        <div className='!w-full flex items-center justify-center '>
+          {step === 1 && <EmailStep proceed={() => setStep(2)} />}
+          {step === 2 && <InputOTPForm />}
         </div>
       </div>
     </div>
