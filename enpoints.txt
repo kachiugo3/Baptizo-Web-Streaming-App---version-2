@@ -1,0 +1,3 @@
+login : https://www.baptizo.io/auth/login/
+register : https://www.baptizo.io/auth/register/
+forgot-password: https://www.baptizo.io/auth/forgot-password/

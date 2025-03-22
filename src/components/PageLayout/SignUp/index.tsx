@@ -2,9 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
-import LoginForm from "@/components/Form/LoginForm";
+import SignupForm from "@/components/Form/SignupForm";
 
-const LoginPageLayout = () => {
+const SignUpPageLayout = () => {
   return (
     <div className='flex flex-col p-5 lg:p-0 flex-1 pt-5 justify-center items-center overflow-y-scroll'>
       <div className='max-h-[95vh]'>
@@ -16,17 +16,17 @@ const LoginPageLayout = () => {
             height={40}
           />
           <p className='text-2xl font-semibold mt-3 mb-1'>
-            Login to your account
+            Create your account
           </p>
           <p className='text-base'>Adventure Starts Here</p>
         </div>
 
         <div className='w-full flex  items-center justify-center '>
-          <LoginForm />
+          <SignupForm />
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginPageLayout;
+export default SignUpPageLayout;

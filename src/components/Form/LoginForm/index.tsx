@@ -3,61 +3,36 @@
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 
 import TextField from "../Elements/TextField";
 import {PasswordRegex} from "@/services/constants";
 import {Checkbox} from "@/components/ui/checkbox";
 import Link from "next/link";
-import {Label} from "@/components/ui/label";
-import {Separator} from "@/components/ui/separator";
+
 import Image from "next/image";
 
-const formSchema = z
-  .object({
-    fullName: z
-      .string({
-        required_error: "Please enter your full name",
-      })
-      .min(8, "Full name must be at least 8 characters")
-      .max(30, "Full name must be at most 30 characters"),
+const formSchema = z.object({
+  email: z
+    .string({
+      required_error: "Please enter your email",
+    })
+    .email("Please enter a valid email"),
 
-    email: z
-      .string({
-        required_error: "Please enter your email",
-      })
-      .email("Please enter a valid email"),
+  password: z
+    .string({
+      required_error: "Password is required",
+    })
+    .regex(
+      PasswordRegex,
+      "Password must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character",
+    ),
 
-    password: z
-      .string({
-        required_error: "Password is required",
-      })
-      .regex(
-        PasswordRegex,
-        "Password must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character",
-      ),
-
-    confirmPassword: z.string({
-      required_error: "Confirm Password is required",
-    }),
-
-    terms: z.boolean().refine((value) => value === true, {
-      message: "You must accept our terms and conditions",
-    }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"], // Targets the confirmPassword field for errors
-    message: "Passwords must match",
-  });
+  terms: z.boolean().refine((value) => value === true, {
+    message: "You must accept our terms and conditions",
+  }),
+});
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -78,13 +53,6 @@ export default function LoginForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
           <TextField
             control={form.control}
-            name='fullName'
-            label='Full Name'
-            placeholder='Enter your full name'
-          />
-
-          <TextField
-            control={form.control}
             name='email'
             label='Email Address'
             placeholder='Enter your email address'
@@ -99,38 +67,32 @@ export default function LoginForm() {
             type='password'
           />
 
-          <TextField
-            control={form.control}
-            name='confirmPassword'
-            label='Confirm Password'
-            placeholder='Confirm your password'
-            type='password'
-          />
+          <div className='flex items-center justify-between'>
+            <FormField
+              control={form.control}
+              name='terms'
+              render={({field}) => (
+                <FormItem className='flex -mt-3 space-x-0 items-center space-y-0'>
+                  <FormControl className='cursor-pointer'>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className='space-y-1 leading-[140%] text-sm text-[#9498A3]'>
+                    Remember me
+                  </div>
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name='terms'
-            render={({field}) => (
-              <FormItem className='flex -mt-3 space-x-0 items-center space-y-0'>
-                <FormControl className='cursor-pointer'>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <div className='space-y-1 leading-[140%] text-sm text-[#9498A3]'>
-                  By clicking create account you agree to Enfi{" "}
-                  <span className='whitespace-nowrap text-foreground !font-semibold'>
-                    Terms of use
-                  </span>{" "}
-                  and{" "}
-                  <span className='whitespace-nowrap text-foreground !font-semibold'>
-                    and Privacy policy
-                  </span>
-                </div>
-              </FormItem>
-            )}
-          />
+            <Link
+              href='/forgot-password'
+              className='text-sm -mt-3 text-[#292D32]  font-semibold'
+            >
+              Forgot Password
+            </Link>
+          </div>
 
           <Button type='submit' size='lg' className='w-full'>
             Sign up
@@ -163,9 +125,9 @@ export default function LoginForm() {
         </form>
 
         <div className='flex flex-1 justify-center mt-2 text-foreground'>
-          Already have an account?{" "}
-          <Link href='/login' className='font-bold ml-1'>
-            Login
+          Don{"'"}t have an account?{" "}
+          <Link href='/sign-up' className='font-bold ml-1'>
+            Signup
           </Link>
         </div>
       </Form>
