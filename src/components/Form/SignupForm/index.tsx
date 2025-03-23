@@ -64,7 +64,7 @@ export default function SignupForm() {
   }
 
   return (
-    <div className='mx-auto !max-w-[390px] mt-5'>
+    <div className='mx-auto !max-w-[390px] mt-5 hideScrollBar'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
           <TextField
@@ -133,29 +133,47 @@ export default function SignupForm() {
             <div className='w-[100px] bg-[#98999cb0]  h-[1px]'></div>
           </div>
 
-          <Button variant='outline' size='lg' className='w-full'>
-            <Image
-              src='/img/google_icon.webp'
-              width='20'
-              height='20'
-              alt='google_auth_logo'
-            />
-            <p> Sign up with google </p>
+          <Button
+            variant='outline'
+            size='lg'
+            className='w-full'
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className='flex items-center justify-center space-x-2'>
+              <Image
+                src='/img/google_icon.webp'
+                width='20'
+                height='20'
+                alt='google_auth_logo'
+              />
+              <p> Sign up with google </p>
+            </div>
           </Button>
-          <Button variant='outline' size='lg' className='w-full'>
-            <Image
-              src='/img/apple_icon.webp'
-              width='20'
-              height='20'
-              alt='google_auth_logo'
-            />
-            <p> Sign up with google </p>
+          <Button
+            variant='outline'
+            size='lg'
+            className='w-full'
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className='flex items-center justify-center space-x-2'>
+              <Image
+                src='/img/apple_icon.webp'
+                width='20'
+                height='20'
+                alt='google_auth_logo'
+              />
+              <p> Sign up with google </p>
+            </div>
           </Button>
         </form>
 
         <div className='flex flex-1 justify-center mt-2 text-foreground'>
           Already have an account?{" "}
-          <Link href='/login' className='font-bold ml-1'>
+          <Link href='/login' className='font-semibold ml-1'>
             Login
           </Link>
         </div>

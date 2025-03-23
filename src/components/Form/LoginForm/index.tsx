@@ -5,13 +5,16 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {Button} from "@/components/ui/button";
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
-
+import {useMutation} from "@tanstack/react-query";
 import TextField from "../Elements/TextField";
 import {PasswordRegex} from "@/services/constants";
 import {Checkbox} from "@/components/ui/checkbox";
 import Link from "next/link";
+import {toast} from "sonner";
 
 import Image from "next/image";
+import {Login} from "@/app/api/authActions";
+import {useAppContext} from "@/context/AuthContext";
 
 const formSchema = z.object({
   email: z
@@ -35,13 +38,26 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
+  const {state, dispatch} = useAppContext();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const {mutate, isPending} = useMutation({
+    mutationFn: (payload: {email: string; password: string}) => Login(payload),
+    onSuccess: (data) => {
+      console.log("Login successful", data);
+      dispatch({type: "UPDATE_USER", payload: data});
+    },
+    onError: (error) => {
+      console.error("Login failed", error);
+      toast.error("Login failed");
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values);
+      mutate(values);
     } catch (error) {
       console.error("Form submission error", error);
     }
@@ -94,8 +110,13 @@ export default function LoginForm() {
             </Link>
           </div>
 
-          <Button type='submit' size='lg' className='w-full'>
-            Sign up
+          <Button
+            type='submit'
+            size='lg'
+            className='w-full'
+            loading={isPending}
+          >
+            Sign In
           </Button>
 
           <div className='flex justify-center items-center w-full'>
@@ -104,23 +125,41 @@ export default function LoginForm() {
             <div className='w-[100px] bg-[#98999cb0]  h-[1px]'></div>
           </div>
 
-          <Button variant='outline' size='lg' className='w-full'>
-            <Image
-              src='/img/google_icon.webp'
-              width='20'
-              height='20'
-              alt='google_auth_logo'
-            />
-            <p> Sign up with google </p>
+          <Button
+            variant='outline'
+            size='lg'
+            className='!w-full'
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className='flex items-center justify-center space-x-2'>
+              <Image
+                src='/img/google_icon.webp'
+                width='20'
+                height='20'
+                alt='google_auth_logo'
+              />
+              <p> Sign up with google </p>
+            </div>
           </Button>
-          <Button variant='outline' size='lg' className='w-full'>
-            <Image
-              src='/img/apple_icon.webp'
-              width='20'
-              height='20'
-              alt='google_auth_logo'
-            />
-            <p> Sign up with google </p>
+          <Button
+            variant='outline'
+            size='lg'
+            className='!w-full'
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className='flex items-center justify-center space-x-2'>
+              <Image
+                src='/img/apple_icon.webp'
+                width='20'
+                height='20'
+                alt='google_auth_logo'
+              />
+              <p> Sign up with google </p>
+            </div>
           </Button>
         </form>
 

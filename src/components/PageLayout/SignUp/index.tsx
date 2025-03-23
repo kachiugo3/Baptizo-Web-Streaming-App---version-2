@@ -6,7 +6,7 @@ import SignupForm from "@/components/Form/SignupForm";
 
 const SignUpPageLayout = () => {
   return (
-    <div className='flex flex-col p-5 lg:p-0 flex-1 pt-5 justify-center items-center overflow-y-scroll'>
+    <div className='flex flex-col p-5 lg:p-0 flex-1 pt-5 justify-center items-center overflow-y-scroll hideScrollBar'>
       <div className='max-h-[95vh]'>
         <div className='flex flex-col items-center justify-between '>
           <Image

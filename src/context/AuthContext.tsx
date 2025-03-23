@@ -4,24 +4,13 @@ import {
   Dispatch,
   ReactNode,
   useContext,
-  useEffect,
   useReducer,
 } from "react";
-// import {TFavouriteCities, ICitiesInfo, IWeatherWithForcast} from "../types";
-// import {
-//   addNoteToCity,
-//   editNoteInCity,
-//   removeNoteFromCity,
-//   toggleFavoriteCity,
-// } from "../utils/context-functions";
-// import {getLocalStorageItem, setLocalStorageItem} from "../utils/storage";
-
-// const LocalStorageKey = process.env.REACT_APP_LOCAL_STORAGE_KEY as string;
 
 export type Actions =
   | {
-      type: "LOGIN";
-      payload: {email: string; password: string};
+      type: "UPDATE_USER";
+      payload: any;
     }
   | {
       type: "SIGN_UP";
@@ -34,12 +23,6 @@ export type Actions =
 
 export type ContextStateType = {
   user: any;
-  // favoriteCities: TFavouriteCities;
-  // topCitiesToShow: IWeatherWithForcast[] | null;
-  // lastSearchResult: IWeatherWithForcast[];
-  // searchStatus: "typing" | "loading" | "none";
-  // currentLocation: string | null;
-  // isRehydrating: boolean;
 };
 
 export type AppContextType = {
@@ -56,7 +39,8 @@ function AuthReducer(
   action: Actions,
 ): ContextStateType {
   switch (action.type) {
-    case "LOGIN":
+    case "UPDATE_USER":
+      console.log(state.user, action.payload);
       return {
         ...state,
         user: action.payload,
@@ -69,30 +53,8 @@ function AuthReducer(
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const AppProvider = ({children}: {children: ReactNode; value?: Actions}) => {
+const AuthProvider = ({children}: {children: ReactNode; value?: Actions}) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
-
-  //get data from local storage and store in state if it exist.
-  useEffect(() => {
-    const stateFromLocalStorage =
-      getLocalStorageItem<ContextStateType>(LocalStorageKey);
-    if (stateFromLocalStorage) {
-      dispatch({
-        type: "UPDATE_STATE",
-        payload: {state: {...stateFromLocalStorage}},
-      });
-      dispatch({
-        type: "UPDATE_HYDRATION_STATUS",
-        payload: {data: false},
-      });
-      return;
-    }
-    dispatch({
-      type: "UPDATE_HYDRATION_STATUS",
-      payload: {data: false},
-    });
-    setLocalStorageItem(LocalStorageKey, initialState);
-  }, []);
 
   const contextValue: AppContextType = {
     state,
@@ -107,9 +69,9 @@ const AppProvider = ({children}: {children: ReactNode; value?: Actions}) => {
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error("useApp must be used within an AppProvider");
+    throw new Error("useApp must be used within an AuthProvider");
   }
   return context;
 };
 
-export default AppProvider;
+export default AuthProvider;

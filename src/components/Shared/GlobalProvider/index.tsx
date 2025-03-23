@@ -2,6 +2,7 @@
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ThemeProvider} from "@/components/Shared/Theme-provider";
 import {Toaster} from "@/components/ui/sonner";
+import AuthProvider from "@/context/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -14,8 +15,8 @@ export function GlobalProvider({children}: {children: React.ReactNode}) {
       disableTransitionOnChange
     >
       <QueryClientProvider client={queryClient}>
-        {children}
-        <Toaster />
+        <AuthProvider>{children}</AuthProvider>
+        <Toaster richColors position='bottom-right' />
       </QueryClientProvider>
     </ThemeProvider>
   );
