@@ -38,7 +38,7 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
-  const {state, dispatch} = useAppContext();
+  const {dispatch} = useAppContext();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -48,25 +48,28 @@ export default function LoginForm() {
     onSuccess: (data) => {
       console.log("Login successful", data);
       dispatch({type: "UPDATE_USER", payload: data});
+      return;
     },
     onError: (error) => {
       console.error("Login failed", error);
       toast.error("Login failed");
+      return;
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const {handleSubmit} = form;
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     try {
       mutate(values);
     } catch (error) {
       console.error("Form submission error", error);
     }
-  }
+  };
 
   return (
     <div className='mx-auto !max-w-[390px] mt-5'>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+        <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
           <TextField
             control={form.control}
             name='email'
@@ -143,14 +146,7 @@ export default function LoginForm() {
               <p> Sign up with google </p>
             </div>
           </Button>
-          <Button
-            variant='outline'
-            size='lg'
-            className='!w-full'
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
+          <Button variant='outline' size='lg' className='!w-full'>
             <div className='flex items-center justify-center space-x-2'>
               <Image
                 src='/img/apple_icon.webp'
