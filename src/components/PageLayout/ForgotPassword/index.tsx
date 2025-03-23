@@ -4,6 +4,7 @@ import Image from "next/image";
 import {useMemo, useState} from "react";
 import EmailStep from "@/components/Form/EmailStepForm";
 import {InputOTPForm} from "@/components/Form/OTPForm";
+import NewPasswordForm from "@/components/Form/NewPasswordForm";
 
 const ForgotPasswordLayout = () => {
   const [step, setStep] = useState(1);
@@ -49,7 +50,8 @@ const ForgotPasswordLayout = () => {
 
         <div className='!w-full flex items-center justify-center '>
           {step === 1 && <EmailStep proceed={() => setStep(2)} />}
-          {step === 2 && <InputOTPForm />}
+          {step === 2 && <InputOTPForm proceed={() => setStep(3)} />}
+          {step === 3 && <NewPasswordForm proceed={() => setStep(1)} />}
         </div>
       </div>
     </div>

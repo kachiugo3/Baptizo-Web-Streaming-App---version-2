@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {InputOTP, InputOTPGroup, InputOTPSlot} from "@/components/ui/input-otp";
-import {useRouter} from "next/router";
+import {useRouter} from "next/navigation";
 
 const FormSchema = z.object({
   pin: z.string().min(4, {
@@ -21,9 +21,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function InputOTPForm() {
-  const router = useRouter();
-
+export function InputOTPForm({proceed}: {proceed: () => void}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,8 +29,11 @@ export function InputOTPForm() {
     },
   });
 
+  const router = useRouter();
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
+    proceed();
   }
 
   return (

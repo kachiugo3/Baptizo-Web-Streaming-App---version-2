@@ -46,7 +46,7 @@ const TextField = ({
           <FormControl>
             <Input
               placeholder={placeholder}
-              type={type === "password" && !showIcon ? "text" : "password"}
+              type={type === "password" && !showIcon ? "password" : "text"}
               {...field}
               {...props}
               className={`${type === "password" && "!pr-10"}`}

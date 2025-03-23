@@ -126,7 +126,7 @@ export default function LoginForm() {
 
         <div className='flex flex-1 justify-center mt-2 text-foreground'>
           Don{"'"}t have an account?{" "}
-          <Link href='/sign-up' className='font-bold ml-1'>
+          <Link href='/sign-up' className='font-semibold ml-1'>
             Signup
           </Link>
         </div>
