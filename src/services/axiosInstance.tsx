@@ -28,14 +28,10 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response && error.response.status === 401) {
-      // Handle token expiration or unauthorized access
-      console.error("Unauthorized! Redirecting to login...");
       if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        window.location.href = "/login"; // Redirect to login page
+        return;
       }
     }
-
     return Promise.reject(error);
   },
 );

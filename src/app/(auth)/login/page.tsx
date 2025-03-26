@@ -1,3 +1,5 @@
+"use client";
+
 import LoginPageLayout from "@/components/PageLayout/Login";
 
 const Login = () => {

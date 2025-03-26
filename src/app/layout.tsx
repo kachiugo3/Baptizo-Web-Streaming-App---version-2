@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import {GlobalProvider} from "@/components/Shared/GlobalProvider";
+import {GlobalProvider} from "./globalProvider";
 
 export const metadata: Metadata = {
   title: "Baptizo - Audio books, Audio series, Audio dramas streaming app",

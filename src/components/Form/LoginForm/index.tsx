@@ -11,6 +11,8 @@ import {PasswordRegex} from "@/services/constants";
 import {Checkbox} from "@/components/ui/checkbox";
 import Link from "next/link";
 import {toast} from "sonner";
+import {OAuthProvider, signInWithPopup} from "firebase/auth";
+import {auth} from "@/firebase-config";
 
 import Image from "next/image";
 import {Login} from "@/app/api/authActions";
@@ -32,9 +34,7 @@ const formSchema = z.object({
       "Password must contain at least 8 characters, an uppercase letter, a lowercase letter, a number, and a special character",
     ),
 
-  terms: z.boolean().refine((value) => value === true, {
-    message: "You must accept our terms and conditions",
-  }),
+  terms: z.boolean().optional(),
 });
 
 export default function LoginForm() {
@@ -46,21 +46,24 @@ export default function LoginForm() {
   const {mutate, isPending} = useMutation({
     mutationFn: (payload: {email: string; password: string}) => Login(payload),
     onSuccess: (data) => {
-      console.log("Login successful", data);
       dispatch({type: "UPDATE_USER", payload: data});
       return;
     },
     onError: (error) => {
       console.error("Login failed", error);
       toast.error("Login failed");
-      return;
     },
   });
 
   const {handleSubmit} = form;
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const payload = {
+      email: values.email,
+      password: values.password,
+    };
     try {
-      mutate(values);
+      const res = await mutate(payload);
+      dispatch({type: "UPDATE_USER", payload: res});
     } catch (error) {
       console.error("Form submission error", error);
     }
