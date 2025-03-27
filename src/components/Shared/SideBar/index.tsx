@@ -22,12 +22,29 @@ import {
   LibraryIcon,
   ProfileIcon,
 } from "../Icons";
-import {usePathname} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {useMemo} from "react";
 import {ModeToggle} from "../ThemeSwitcher";
+import {Logout} from "@/api/authActions";
+import {useAppContext} from "@/context/AuthContext";
+import {useMutation} from "@tanstack/react-query";
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
   const pathName = usePathname();
+  const {dispatch} = useAppContext();
+  const router = useRouter();
+
+  const {mutate} = useMutation({
+    mutationFn: Logout,
+    onSuccess: () => {
+      router.push("/login");
+      dispatch({type: "UPDATE_USER", payload: {}});
+      return;
+    },
+    onError: (error) => {
+      console.error("Login failed", error);
+    },
+  });
 
   const navItems = useMemo(
     () => [
@@ -112,8 +129,8 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <div className='flex flex-col flex-1 gap-y-2 items-center '>
           <ModeToggle />
-          <Button variant='ghost' asChild>
-            <div className='!rounded-full w-10 h-10 !bg-white dark:!bg-transparent !border !border-border !p-1'>
+          <Button variant='ghost' asChild onClick={() => mutate()}>
+            <div className='!rounded-full flex justify-center items-center w-9 h-9 !bg-white dark:!bg-transparent !border !border-border !p-1'>
               <ArrowRight />
             </div>
           </Button>

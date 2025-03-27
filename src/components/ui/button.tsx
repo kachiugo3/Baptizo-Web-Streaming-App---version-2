@@ -87,7 +87,11 @@ function Button({
       <span className='flex items-center justify-center space-x-2'>
         {loading && <Loader2 className='animate-spin w-6 h-6' />}
         {!loading && (
-          <span className={loading ? "opacity-0" : "opacity-100"}>
+          <span
+            className={`flex items-center justify-center ${
+              loading ? "opacity-0" : "opacity-100"
+            }`}
+          >
             {children}
           </span>
         )}

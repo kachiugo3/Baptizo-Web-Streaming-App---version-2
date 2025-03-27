@@ -11,12 +11,15 @@ import {PasswordRegex} from "@/services/constants";
 import {Checkbox} from "@/components/ui/checkbox";
 import Link from "next/link";
 import {toast} from "sonner";
-import {OAuthProvider, signInWithPopup} from "firebase/auth";
-import {auth} from "@/firebase-config";
-
+import {getAuth, OAuthProvider, signInWithPopup} from "firebase/auth";
 import Image from "next/image";
-import {Login} from "@/app/api/authActions";
+import {Login} from "@/api/authActions";
 import {useAppContext} from "@/context/AuthContext";
+import {useGoogleLogin} from "@react-oauth/google";
+import axios from "axios";
+// import {auth} from "../../../../firebase-config";
+import {useRouter} from "next/navigation";
+import {app} from "../../../../firebase-config";
 
 const formSchema = z.object({
   email: z
@@ -39,9 +42,13 @@ const formSchema = z.object({
 
 export default function LoginForm() {
   const {dispatch} = useAppContext();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+
+  const router = useRouter();
+  const {handleSubmit} = form;
 
   const {mutate, isPending} = useMutation({
     mutationFn: (payload: {email: string; password: string}) => Login(payload),
@@ -55,7 +62,73 @@ export default function LoginForm() {
     },
   });
 
-  const {handleSubmit} = form;
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      const token = response.access_token;
+      const newRegisteredUser = {} as any;
+
+      try {
+        const {data} = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        newRegisteredUser.email = data.email;
+        newRegisteredUser.firstName = data.given_name;
+        newRegisteredUser.lastName = data.family_name;
+        newRegisteredUser.client = "provider_web";
+        newRegisteredUser.image = data.picture;
+        newRegisteredUser.password = data.sub;
+      } catch (error: unknown) {
+        toast.error("Error while fetching user info from Google");
+        return;
+      }
+
+      try {
+        const {data} = await axios.post(`/auth/register`, newRegisteredUser);
+        toast.success("Success!");
+        dispatch({type: "UPDATE_USER", payload: data});
+        router.push("/home");
+      } catch (error: unknown) {
+        toast.error(error?.response?.data?.msg || "Oops! Something went wrong");
+      }
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.msg || "Oops!Something went wrong");
+      // localStorage.removeItem("baptizo.io-redirectUrl");
+    },
+  });
+
+  const appleLogin = () => {
+    const auth = getAuth(app);
+    const provider = new OAuthProvider("apple.com");
+    signInWithPopup(auth, provider).then(async (result) => {
+      try {
+        const {data} = await axios.post(`/auth/login-apple-web`, {
+          email: result.user.email,
+          uid: result.user.uid,
+        });
+        toast.success("Success!");
+        dispatch({type: "UPDATE_USER", payload: data});
+      } catch (error) {
+        toast.error(error?.response?.data?.msg || "Ooops!Something went wrong");
+      }
+    });
+  };
+
+  const handleGoogleLogin = async () => {
+    // e.preventDefault();
+
+    // get current url and save it in local storage
+    const url = window.location.href;
+    localStorage.setItem("baptizo.io-redirectUrl", url);
+
+    googleLogin();
+  };
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const payload = {
       email: values.email,
@@ -137,6 +210,7 @@ export default function LoginForm() {
             className='!w-full'
             onClick={(e) => {
               e.preventDefault();
+              handleGoogleLogin();
             }}
           >
             <div className='flex items-center justify-center space-x-2'>
@@ -149,7 +223,15 @@ export default function LoginForm() {
               <p> Sign up with google </p>
             </div>
           </Button>
-          <Button variant='outline' size='lg' className='!w-full'>
+          <Button
+            variant='outline'
+            size='lg'
+            className='!w-full'
+            onClick={(e) => {
+              e.preventDefault();
+              appleLogin();
+            }}
+          >
             <div className='flex items-center justify-center space-x-2'>
               <Image
                 src='/img/apple_icon.webp'
@@ -157,7 +239,7 @@ export default function LoginForm() {
                 height='20'
                 alt='google_auth_logo'
               />
-              <p> Sign up with google </p>
+              <p> Sign up with Apple </p>
             </div>
           </Button>
         </form>

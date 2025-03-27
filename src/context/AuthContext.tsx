@@ -10,15 +10,14 @@ import {
 export type Actions =
   | {
       type: "UPDATE_USER";
-      payload: any;
+      payload: unknown;
     }
   | {
       type: "SIGN_UP";
       payload: {city_id: string; note_id: string; newText?: string};
     }
   | {
-      type: "FORGOT_PASSWORD";
-      payload: {city_id: string; newText?: string; note_id?: string};
+      type: "LOGOUT";
     };
 
 export type ContextStateType = {
@@ -40,11 +39,15 @@ function AuthReducer(
 ): ContextStateType {
   switch (action.type) {
     case "UPDATE_USER":
-      console.log(state.user, action.payload);
       return {
         ...state,
         user: action.payload,
       };
+    // case "LOGOUT":
+    //   return {
+    //     ...state,
+    //     user: {},
+    //   };
 
     default:
       return state;
