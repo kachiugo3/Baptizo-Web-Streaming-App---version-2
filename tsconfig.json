@@ -30,5 +30,10 @@
     "src/components/Shared/Icons/BookOpen.js",
     "src/components/Shared/Icons/BookOpen.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "noImplicitAny": false,
+  "suppressImplicitAnyIndexErrors": true,
+  "strictPropertyInitialization": false,
+  "strictNullChecks": false,
+  "allowImplicitAny": true
 }

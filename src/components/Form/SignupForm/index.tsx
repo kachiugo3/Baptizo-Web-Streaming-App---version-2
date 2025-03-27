@@ -5,13 +5,15 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {Button} from "@/components/ui/button";
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
-
+import {useOAuthLogin} from "@/hooks/useOAuthLogin";
 import TextField from "../Elements/TextField";
 import {PasswordRegex} from "@/services/constants";
 import {Checkbox} from "@/components/ui/checkbox";
 import Link from "next/link";
-
 import Image from "next/image";
+import {useMutation} from "@tanstack/react-query";
+import {Register, RegisterPayload} from "@/api/authActions";
+import {toast} from "sonner";
 
 const formSchema = z
   .object({
@@ -55,11 +57,31 @@ export default function SignupForm() {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const {googleLogin, appleLogin, loadingState} = useOAuthLogin();
+
+  const {mutate, isPending} = useMutation({
+    mutationFn: (payload: RegisterPayload) => Register(payload),
+    onSuccess(data: any) {
+      toast.success(data?.msg);
+    },
+    onError(err: any) {
+      toast.error(err?.response?.data?.msg || "Ooops!Failed to register");
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const namesPart = values.fullName.split(" ");
+    const payload = {
+      email: values.email,
+      password: values.password,
+      firstName: namesPart[0],
+      lastName: namesPart[1],
+      client: "web",
+    };
     try {
-      console.log(values);
+      await mutate(payload);
     } catch (error) {
-      console.error("Form submission error", error);
+      console.error(error);
     }
   }
 
@@ -123,7 +145,12 @@ export default function SignupForm() {
             )}
           />
 
-          <Button type='submit' size='lg' className='w-full'>
+          <Button
+            type='submit'
+            size='lg'
+            className='w-full'
+            loading={isPending}
+          >
             Sign up
           </Button>
 
@@ -137,8 +164,10 @@ export default function SignupForm() {
             variant='outline'
             size='lg'
             className='w-full'
+            loading={loadingState.google}
             onClick={(e) => {
               e.preventDefault();
+              googleLogin();
             }}
           >
             <div className='flex items-center justify-center space-x-2'>
@@ -155,8 +184,10 @@ export default function SignupForm() {
             variant='outline'
             size='lg'
             className='w-full'
+            loading={loadingState.apple}
             onClick={(e) => {
               e.preventDefault();
+              appleLogin();
             }}
           >
             <div className='flex items-center justify-center space-x-2'>

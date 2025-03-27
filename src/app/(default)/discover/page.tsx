@@ -1,5 +1,5 @@
 const Discover = () => {
-  return <div>Discover</div>;
+  return <div className='!w-full'>Discover</div>;
 };
 
 export default Discover;
