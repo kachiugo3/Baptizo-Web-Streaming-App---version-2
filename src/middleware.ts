@@ -20,7 +20,6 @@ export function middleware(request: NextRequest) {
   return NextResponse.next(); // Continue request
 }
 
-// Specify which routes this middleware should run on
 export const config = {
   matcher: ["/home", "/discover", "/library", "/profile"],
 };

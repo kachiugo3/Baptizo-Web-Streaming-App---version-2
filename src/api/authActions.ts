@@ -1,4 +1,4 @@
-import axiosInstance from "@/services/axiosInstance";
+import axios from "axios";
 export interface RegisterPayload {
   email: string;
   password: string;
@@ -10,15 +10,25 @@ export async function Login(payload: {
   email: string;
   password: string;
 }): Promise<unknown> {
-  const {data} = await axiosInstance.post("/auth/login", payload);
+  const {data} = await axios.post("/auth/login", payload);
   return data;
 }
 
 export async function Logout() {
-  await axiosInstance.delete("/auth/logout");
+  await axios.delete("/auth/logout");
 }
 
 export async function Register(payload: RegisterPayload): Promise<unknown> {
-  const {data} = await axiosInstance.post("/auth/register", payload);
+  const {data} = await axios.post("/auth/register", payload);
+  return data;
+}
+
+export async function forgotPassword(payload: {client: string; email: string}) {
+  const {data} = await axios.post("/auth/forgot-password", payload);
+  return data;
+}
+
+export async function resetPassword(payload: any) {
+  const {data} = await axios.post("/auth/reset-password", payload);
   return data;
 }

@@ -3,11 +3,13 @@
 import Image from "next/image";
 import {useMemo, useState} from "react";
 import EmailStep from "@/components/Form/EmailStepForm";
-import {InputOTPForm} from "@/components/Form/OTPForm";
 import NewPasswordForm from "@/components/Form/NewPasswordForm";
+import {CheckEmail} from "@/components/PageComponent/CheckEmail";
+// import {InputOTPForm} from "@/components/Form/OTPForm";
 
 const ForgotPasswordLayout = () => {
   const [step, setStep] = useState(1);
+  const [currentEmail, setCurrentEmail] = useState("");
 
   const headerText = useMemo<{title: string; subtitle: string}>(() => {
     switch (step) {
@@ -18,14 +20,14 @@ const ForgotPasswordLayout = () => {
         };
       case 2:
         return {
-          title: "Enter verification code",
-          subtitle: "we have sent  an OTP to bencarter@gmail.com",
+          title: "Check your email for reset link",
+          subtitle: `we have sent  an OTP to ${currentEmail}`,
         };
-      case 3:
-        return {
-          title: "Set new password",
-          subtitle: "Set a new password that is different from the old one",
-        };
+      // case 2:
+      //   return {
+      //     title: "Set new password",
+      //     subtitle: "Set a new password that is different from the old one",
+      //   };
       default:
         return {
           title: "Forgot Password",
@@ -49,9 +51,15 @@ const ForgotPasswordLayout = () => {
         </div>
 
         <div className='!w-full flex items-center justify-center '>
-          {step === 1 && <EmailStep proceed={() => setStep(2)} />}
-          {step === 2 && <InputOTPForm proceed={() => setStep(3)} />}
-          {step === 3 && <NewPasswordForm proceed={() => setStep(1)} />}
+          {step === 1 && (
+            <EmailStep
+              proceed={() => setStep(2)}
+              updateEmail={(val) => setCurrentEmail(val)}
+            />
+          )}
+          {step === 2 && <CheckEmail />}
+          {/* {step === 2 && <NewPasswordForm proceed={() => setStep(1)} />} */}
+          {/* {step === 2 && <InputOTPForm proceed={() => setStep(3)} />} */}
         </div>
       </div>
     </div>

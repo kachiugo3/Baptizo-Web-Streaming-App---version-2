@@ -28,7 +28,6 @@ import {ModeToggle} from "../ThemeSwitcher";
 import {Logout} from "@/api/authActions";
 import {useAppContext} from "@/context/AuthContext";
 import {useMutation} from "@tanstack/react-query";
-import Cookies from "js-cookie";
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
   const pathName = usePathname();
@@ -49,21 +48,6 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
 
   const logOut = () => {
     mutate();
-
-    Cookies.remove("accessToken", {
-      path: "/",
-      domain: window.location.hostname,
-    });
-
-    ["", "www.", "http://", "https://"].forEach((prefix) => {
-      Cookies.remove("accessToken", {
-        path: "/",
-        domain: prefix + window.location.hostname,
-      });
-      document.cookie = `accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${
-        prefix + window.location.hostname
-      }`;
-    });
   };
 
   const navItems = useMemo(

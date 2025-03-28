@@ -6,8 +6,17 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
+import {toast} from "sonner";
+import {useMutation} from "@tanstack/react-query";
+import {forgotPassword} from "@/api/authActions";
 
-const EmailStep = ({proceed}: {proceed: () => void}) => {
+const EmailStep = ({
+  proceed,
+  updateEmail,
+}: {
+  proceed: () => void;
+  updateEmail: (val: string) => void;
+}) => {
   const router = useRouter();
 
   const formSchema = z.object({
@@ -22,14 +31,31 @@ const EmailStep = ({proceed}: {proceed: () => void}) => {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      console.log(values);
+  const {mutate, isPending} = useMutation({
+    mutationFn: (payload: {client: string; email: string}) =>
+      forgotPassword(payload),
+    onSuccess: (data: any) => {
       proceed();
+      toast.success("Please check your email for reset link");
+    },
+    onError: () => {
+      toast.error("Failed to send password reset link");
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const payload = {
+        client: "web",
+        email: values.email,
+      };
+      await mutate(payload);
+      updateEmail(values.email);
     } catch (error) {
       console.error("Form submission error", error);
     }
   }
+
   return (
     <div className='mx-auto !w-full mt-5'>
       <Form {...form}>
@@ -43,7 +69,12 @@ const EmailStep = ({proceed}: {proceed: () => void}) => {
           />
 
           <div>
-            <Button variant='default' size='lg' className='w-full'>
+            <Button
+              variant='default'
+              size='lg'
+              className='w-full'
+              loading={isPending}
+            >
               Reset password
             </Button>
             <Button
