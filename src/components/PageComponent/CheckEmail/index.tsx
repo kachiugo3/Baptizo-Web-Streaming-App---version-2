@@ -1,7 +1,9 @@
 import {Button} from "@/components/ui/button";
 import {Player} from "@lottiefiles/react-lottie-player";
+import {useRouter} from "next/navigation";
 
 export const CheckEmail = () => {
+  const router = useRouter();
   return (
     <div className='flex gap-y-4 flex-col flex-1'>
       <div className='p-5 bg-grey-200 mt-5 rounded-md w-full max-w-[390px]'>
@@ -13,7 +15,11 @@ export const CheckEmail = () => {
         ></Player>
       </div>
 
-      <Button className='rounded-md' size='lg'>
+      <Button
+        className='rounded-md'
+        size='lg'
+        onClick={() => router.push("/login")}
+      >
         Back To login
       </Button>
     </div>

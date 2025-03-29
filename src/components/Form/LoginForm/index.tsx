@@ -56,8 +56,8 @@ export default function LoginForm() {
       toast.success("Login successful!");
     },
     onError: (error) => {
-      console.error("Login failed", error);
-      toast.error("Login failed");
+      console.log(error);
+      toast.error(error?.response?.data?.msg || "Login failed");
     },
   });
 

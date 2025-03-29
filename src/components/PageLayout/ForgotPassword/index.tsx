@@ -5,7 +5,6 @@ import {useMemo, useState} from "react";
 import EmailStep from "@/components/Form/EmailStepForm";
 import NewPasswordForm from "@/components/Form/NewPasswordForm";
 import {CheckEmail} from "@/components/PageComponent/CheckEmail";
-// import {InputOTPForm} from "@/components/Form/OTPForm";
 
 const ForgotPasswordLayout = () => {
   const [step, setStep] = useState(1);
@@ -23,18 +22,14 @@ const ForgotPasswordLayout = () => {
           title: "Check your email for reset link",
           subtitle: `we have sent  an OTP to ${currentEmail}`,
         };
-      // case 2:
-      //   return {
-      //     title: "Set new password",
-      //     subtitle: "Set a new password that is different from the old one",
-      //   };
+
       default:
         return {
           title: "Forgot Password",
           subtitle: "Enter your email to reset password",
         };
     }
-  }, [step]);
+  }, [step, currentEmail]);
 
   return (
     <div className='flex flex-col p-5 lg:p-0 flex-1 pt-5 justify-center items-center overflow-y-scroll'>
@@ -58,8 +53,6 @@ const ForgotPasswordLayout = () => {
             />
           )}
           {step === 2 && <CheckEmail />}
-          {/* {step === 2 && <NewPasswordForm proceed={() => setStep(1)} />} */}
-          {/* {step === 2 && <InputOTPForm proceed={() => setStep(3)} />} */}
         </div>
       </div>
     </div>

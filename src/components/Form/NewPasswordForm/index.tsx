@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
@@ -6,7 +8,10 @@ import {Button} from "@/components/ui/button";
 import {Form} from "@/components/ui/form";
 import {PasswordRegex} from "@/services/constants";
 import TextField from "../Elements/TextField";
-import {useRouter} from "next/navigation";
+import {useParams, useRouter, useSearchParams} from "next/navigation";
+import {useMutation} from "@tanstack/react-query";
+import {resetPassword} from "@/api/authActions";
+import {toast} from "sonner";
 
 const formSchema = z
   .object({
@@ -28,17 +33,31 @@ const formSchema = z
     message: "Passwords must match",
   });
 
-const NewPasswordForm = ({proceed}: {proceed: () => void}) => {
+const NewPasswordForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
+  const {mutate, isPending} = useMutation({
+    mutationFn: (payload) => resetPassword(payload),
+    onSuccess: () => {
+      router.push("/login");
+      toast.success("Email reset successfully");
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const payload = {
+      token: searchParams.get("token"),
+      password: values.password,
+      email: searchParams.get("email"),
+      client: "web",
+    } as any;
     try {
-      console.log(values);
-      proceed();
+      mutate(payload);
     } catch (error) {
       console.error("Form submission error", error);
     }
@@ -70,6 +89,7 @@ const NewPasswordForm = ({proceed}: {proceed: () => void}) => {
               size='lg'
               type='submit'
               className='w-full'
+              loading={isPending}
             >
               Reset password
             </Button>
