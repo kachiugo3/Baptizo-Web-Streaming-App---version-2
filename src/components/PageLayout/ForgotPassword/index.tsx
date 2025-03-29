@@ -3,7 +3,6 @@
 import Image from "next/image";
 import {useMemo, useState} from "react";
 import EmailStep from "@/components/Form/EmailStepForm";
-import NewPasswordForm from "@/components/Form/NewPasswordForm";
 import {CheckEmail} from "@/components/PageComponent/CheckEmail";
 
 const ForgotPasswordLayout = () => {

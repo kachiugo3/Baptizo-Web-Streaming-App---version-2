@@ -29,7 +29,7 @@ const EmailConfirmationLayout = () => {
         setTimeout(() => {
           router.push("/login");
         }, 2000);
-      } catch (error: unknown) {
+      } catch () {
         toast.error("Email verification failed");
         setVerificationStatus("error");
       }

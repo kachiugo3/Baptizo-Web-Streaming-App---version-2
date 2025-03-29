@@ -34,7 +34,7 @@ const EmailStep = ({
   const {mutate, isPending} = useMutation({
     mutationFn: (payload: {client: string; email: string}) =>
       forgotPassword(payload),
-    onSuccess: (data: any) => {
+    onSuccess: () => {
       proceed();
       toast.success("Please check your email for reset link");
     },
