@@ -75,7 +75,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className='mx-auto !max-w-[390px] mt-5'>
+    <div className='mx-auto w-full !max-w-[390px] mt-5'>
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
           <TextField
@@ -94,7 +94,7 @@ export default function LoginForm() {
             type='password'
           />
 
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center w-full justify-between'>
             <FormField
               control={form.control}
               name='terms'

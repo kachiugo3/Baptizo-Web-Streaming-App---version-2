@@ -36,29 +36,6 @@ const buttonVariants = cva(
   },
 );
 
-// function Button({
-//   className,
-//   variant,
-//   size,
-//   asChild = false,
-//   ...props
-// }: React.ComponentProps<"button"> &
-//   VariantProps<typeof buttonVariants> & {
-//     asChild?: boolean;
-//   }) {
-//   const Comp = asChild ? Slot : "button";
-
-//   return (
-//     <Comp
-//       data-slot='button'
-//       className={cn(buttonVariants({variant, size, className}))}
-//       {...props}
-//     ></Comp>
-//   );
-// }
-
-// export {Button, buttonVariants};
-
 function Button({
   className,
   variant,
@@ -74,28 +51,36 @@ function Button({
   }) {
   const Comp = asChild ? Slot : "button";
 
+  const buttonContent = (
+    <span className='w-full flex items-center justify-center relative'>
+      <span
+        className={cn(
+          "flex items-center justify-center w-full transition-opacity",
+          loading ? "opacity-0" : "opacity-100",
+        )}
+      >
+        {children}
+      </span>
+
+      {loading && (
+        <span className='absolute inset-0 flex items-center justify-center'>
+          <Loader2 className='animate-spin w-5 h-5' />
+        </span>
+      )}
+    </span>
+  );
+
   return (
     <Comp
-      data-slot='button'
       className={cn(
         buttonVariants({variant, size, className}),
         loading && "opacity-75 cursor-not-allowed",
       )}
       disabled={loading || props.disabled}
+      data-slot='button'
       {...props}
     >
-      <span className='flex items-center justify-center space-x-2'>
-        {loading && <Loader2 className='animate-spin w-6 h-6' />}
-        {!loading && (
-          <span
-            className={`flex items-center justify-center ${
-              loading ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            {children}
-          </span>
-        )}
-      </span>
+      {buttonContent}
     </Comp>
   );
 }
