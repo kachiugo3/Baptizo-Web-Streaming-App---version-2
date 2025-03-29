@@ -3,12 +3,19 @@ import {NextRequest, NextResponse} from "next/server";
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
 
-  const protectedRoutes = ["/home", "/discover", "/library"];
+  const protectedRoutes = ["/home", "/discover", "/library", "/"];
 
   // Check if the current path is a protected route
   const isProtectedRoute = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route),
   );
+
+  const hasCookies = request.cookies.get("accessToken");
+  const unprotectedRoutes = ["/login", "sign-up"];
+
+  if (hasCookies && unprotectedRoutes.includes(request.url)) {
+    return NextResponse.redirect("/home");
+  }
 
   const {searchParams} = new URL(request.url);
 

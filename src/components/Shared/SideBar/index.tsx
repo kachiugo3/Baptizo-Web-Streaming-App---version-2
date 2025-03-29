@@ -37,9 +37,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
   const {mutate} = useMutation({
     mutationFn: Logout,
     onSuccess: () => {
-      router.push("/login");
-      dispatch({type: "UPDATE_USER", payload: {}});
-      return;
+      window.location.reload();
     },
     onError: (error) => {
       console.error("Login failed", error);

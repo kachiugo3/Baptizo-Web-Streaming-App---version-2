@@ -52,7 +52,8 @@ export default function LoginForm() {
     mutationFn: (payload: {email: string; password: string}) => Login(payload),
     onSuccess: (data) => {
       dispatch({type: "UPDATE_USER", payload: data});
-      router.push("/home");
+      window.history.replaceState(null, "", window.location.href);
+      router.replace("/home");
       toast.success("Login successful!");
     },
     onError: (error) => {
