@@ -52,7 +52,7 @@ const formSchema = z
     message: "Passwords must match",
   });
 
-export default function SignupForm() {
+export default function SignupForm({proceed}: {proceed: () => void}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -63,6 +63,7 @@ export default function SignupForm() {
     mutationFn: (payload: RegisterPayload) => Register(payload),
     onSuccess(data: any) {
       toast.success(data?.msg);
+      proceed();
     },
     onError(err: any) {
       toast.error(err?.response?.data?.msg || "Ooops!Failed to register");

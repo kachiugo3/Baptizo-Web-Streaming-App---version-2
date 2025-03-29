@@ -16,8 +16,9 @@ export function middleware(request: NextRequest) {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
-  if (reset === "true" && token) {
-    const resetPasswordUrl = new URL("/reset-password", request.url);
+  //Use case applies for Verifiying email upon signup
+  if (token && !reset) {
+    const resetPasswordUrl = new URL("/confirm-email", request.url);
 
     resetPasswordUrl.searchParams.set("token", token);
     if (email) {
@@ -25,6 +26,18 @@ export function middleware(request: NextRequest) {
     }
 
     return NextResponse.redirect(resetPasswordUrl);
+  }
+
+  //Use case applies for reseting password
+  if (reset === "true" && token) {
+    const forgotPasswordURL = new URL("/reset-password", request.url);
+
+    forgotPasswordURL.searchParams.set("token", token);
+    if (email) {
+      forgotPasswordURL.searchParams.set("email", email);
+    }
+
+    return NextResponse.redirect(forgotPasswordURL);
   }
 
   // If trying to access a protected route without a token, redirect to login

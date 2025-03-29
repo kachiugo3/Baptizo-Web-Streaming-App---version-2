@@ -32,3 +32,10 @@ export async function resetPassword(payload: any) {
   const {data} = await axios.post("/auth/reset-password", payload);
   return data;
 }
+
+export async function verifyEmail(params: {token: string; email: string}) {
+  await axios.post("/auth/verify-email", {
+    verificationToken: params.token,
+    email: params.email,
+  });
+}

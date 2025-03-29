@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button";
 import {Form} from "@/components/ui/form";
 import {PasswordRegex} from "@/services/constants";
 import TextField from "../Elements/TextField";
-import {useParams, useRouter, useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {useMutation} from "@tanstack/react-query";
 import {resetPassword} from "@/api/authActions";
 import {toast} from "sonner";
