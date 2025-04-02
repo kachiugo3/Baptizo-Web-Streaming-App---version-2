@@ -11,7 +11,7 @@ const defaultLayout = ({
     <div>
       <SidebarProvider>
         <AppSidebar />
-        <main className='w-full'>{children}</main>
+        <main className='w-full p-[20px] lg:p-[30px]'>{children}</main>
         <MobileNav />
       </SidebarProvider>
     </div>

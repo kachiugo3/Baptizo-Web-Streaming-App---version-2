@@ -12,7 +12,7 @@ export function GlobalProvider({children}: {children: React.ReactNode}) {
     <ThemeProvider
       attribute='class'
       defaultTheme='system'
-      enableSystem={false}
+      enableSystem={true}
       disableTransitionOnChange
     >
       <QueryClientProvider client={queryClient}>

@@ -55,13 +55,15 @@ const MobileNav = () => {
   return (
     <>
       {isMobile && (
-        <div className='absolute bottom-0 border-t !border-t-slate-200 w-full py-3 px-6 flex flex-1 justify-between'>
+        <div className='absolute bottom-0 border-t !border-t-slate-200 w-full py-5 px-6 flex flex-1 justify-between'>
           {navItems.map((project, idx) => (
             <Link
               key={idx}
               href={project.url}
               className={`${
-                project.isActive ? "!bg-[#02FE0A] p-2 px-3 !rounded-full" : ""
+                project.isActive
+                  ? "!bg-[#02FE0A] p-2 px-3 font-semibold !rounded-full"
+                  : ""
               } h-10 flex items-center`}
             >
               <div className='w-full flex items-center'>
