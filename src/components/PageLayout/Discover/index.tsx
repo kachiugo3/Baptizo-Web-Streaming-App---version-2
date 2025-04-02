@@ -37,6 +37,7 @@ const DiscoverPageLayout = () => {
   return (
     <div className='!w-full'>
       <SearchWidget
+        className='flex-col lg:flex-row gap-2'
         searchQuery={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder='search by title, genre, year, author'

@@ -36,8 +36,10 @@ const SearchWidget = ({
   return (
     <div className={className}>
       {beforeChildren}
-      {searchField}
-      {afterChildren}
+      <div className='flex items-center justify-between mt-2'>
+        {searchField}
+        {afterChildren}
+      </div>
     </div>
   );
 };

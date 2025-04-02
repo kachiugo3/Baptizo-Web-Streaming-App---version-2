@@ -2,7 +2,7 @@
 
 import {useSidebar} from "@/components/ui/sidebar";
 import Link from "next/link";
-import {useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {
   BookOpenIcon,
   DiscoverIcon,
@@ -11,10 +11,19 @@ import {
   ProfileIcon,
 } from "../Icons";
 import {usePathname} from "next/navigation";
+import {useTheme} from "next-themes";
 
 const MobileNav = () => {
+  const [renderUI, setRenderUI] = useState(false);
   const {isMobile} = useSidebar();
   const pathName = usePathname();
+  const {resolvedTheme} = useTheme();
+
+  useEffect(() => {
+    if (resolvedTheme) {
+      setRenderUI(true);
+    }
+  }, [resolvedTheme]);
 
   const navItems = useMemo(
     () => [
@@ -52,28 +61,42 @@ const MobileNav = () => {
     [pathName],
   );
 
+  if (!renderUI) return null;
+
   return (
     <>
       {isMobile && (
-        <div className='absolute bottom-0 border-t !border-t-slate-200 w-full py-5 px-6 flex flex-1 justify-between'>
+        <div className='absolute bottom-0 border-t !border-t-slate-200 w-full py-5 px-6 flex flex-1 items-center justify-between'>
           {navItems.map((project, idx) => (
             <Link
               key={idx}
               href={project.url}
               className={`${
                 project.isActive
-                  ? "!bg-[#02FE0A] p-2 px-3 font-semibold !rounded-full"
-                  : ""
-              } h-10 flex items-center`}
+                  ? "!bg-[#02FE0A] p-2 !rounded-full"
+                  : "hover:!bg-inherit"
+              }`}
             >
               <div className='w-full flex items-center'>
                 <div className=" className='!h-8 !w-8'">
                   <project.icon
-                    className={`${project.isActive && "w-5 h-5 mr-1 "}`}
+                    className={`${
+                      resolvedTheme === "dark" && project.isActive
+                        ? "fill-black stroke-alert-success-200 "
+                        : resolvedTheme === "dark" && !project.isActive
+                        ? "!stroke-white fill-transparent"
+                        : resolvedTheme === "light" && project.isActive
+                        ? "!stroke-black fill-black"
+                        : "stroke-[#494E56] !fill-transparent"
+                    }'stroke-[1.5]'`}
                   />
                 </div>
                 {project.isActive && (
-                  <span className='text-xs dark:text-black'>
+                  <span
+                    className={`${
+                      project.isActive ? "ml-1" : ""
+                    } text-xs dark:text-black`}
+                  >
                     {project.title}
                   </span>
                 )}
