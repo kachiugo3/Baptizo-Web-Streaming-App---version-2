@@ -226,6 +226,7 @@ function Sidebar({
             : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
         )}
       />
+
       <div
         data-slot='sidebar-container'
         className={cn(

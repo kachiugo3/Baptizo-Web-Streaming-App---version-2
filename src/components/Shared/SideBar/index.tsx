@@ -22,17 +22,14 @@ import {
   LibraryIcon,
   ProfileIcon,
 } from "../Icons";
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname} from "next/navigation";
 import {useMemo} from "react";
 import {ModeToggle} from "../ThemeSwitcher";
 import {Logout} from "@/api/authActions";
-import {useAppContext} from "@/context/AuthContext";
 import {useMutation} from "@tanstack/react-query";
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
   const pathName = usePathname();
-  const {dispatch} = useAppContext();
-  const router = useRouter();
 
   const {mutate} = useMutation({
     mutationFn: Logout,
