@@ -29,7 +29,7 @@ const EmailConfirmationLayout = () => {
         setTimeout(() => {
           router.push("/login");
         }, 2000);
-      } catch () {
+      } catch (err: any) {
         toast.error("Email verification failed");
         setVerificationStatus("error");
       }
@@ -71,7 +71,6 @@ const EmailConfirmationLayout = () => {
             alt='auth_bg-image'
             width={40}
             height={40}
-            placeholder='blur'
             priority
           />
           <p className='text-2xl font-semibold mt-3 mb-1'>

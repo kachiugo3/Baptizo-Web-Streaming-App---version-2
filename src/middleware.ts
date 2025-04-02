@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
   );
 
   const hasCookies = request.cookies.get("accessToken");
-  const unprotectedRoutes = ["/login", "sign-up"];
+  const unprotectedRoutes = ["/login", "sign-up", "/discover"];
 
   if (hasCookies && unprotectedRoutes.includes(request.url)) {
     return NextResponse.redirect("/home");
@@ -56,5 +56,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/home", "/discover", "/library", "/profile"],
+  matcher: ["/", "/home", "/library", "/profile"],
 };
