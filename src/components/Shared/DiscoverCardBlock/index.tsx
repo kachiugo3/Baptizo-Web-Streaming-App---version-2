@@ -6,14 +6,11 @@ const DiscoverCardBlock = () => {
   return (
     <div className='h-full !w-full flex flex-col'>
       {/* Image container - 80% height */}
-      <div className='flex-[0.80] min-h-0 w-full rounded-lg border overflow-hidden'>
+      {/* <div className='flex-[0.80] min-h-0 w-full rounded-lg border overflow-hidden'>
         <div className='relative !w-full !h-full'>
-          <Image
+          <img
             src='https://res.cloudinary.com/dgfsobn9i/image/upload/v1743779808/Baptizo/podcast_img_eitdzw.png'
             alt='img'
-            fill
-            priority
-            sizes='100vw'
             className='rounded-lg object-cover object-center absolute'
             style={{width: "100%", height: "100%"}}
           />
@@ -24,9 +21,29 @@ const DiscoverCardBlock = () => {
             <HeartIcon className='stroke-black' size={20} />
           </div>
         </div>
+      </div> */}
+
+      <div
+        className='flex-[0.80] min-h-0 w-full rounded-lg border overflow-hidden relative'
+        style={{
+          backgroundImage:
+            "url('https://res.cloudinary.com/dgfsobn9i/image/upload/v1743111434/Baptizo/AuthImg_3_dtjkmj.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "200px",
+        }}
+      >
+        <div className='w-full h-full'></div>
+
+        <div className='flex items-center !cursor-pointer justify-center w-12 h-12 absolute rounded-full bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+          <Play className='fill-black' />
+        </div>
+
+        <div className='flex items-center !cursor-pointer justify-center w-12 h-12 absolute rounded-full bg-white right-9 top-4'>
+          <HeartIcon className='stroke-black' size={20} />
+        </div>
       </div>
 
-      {/* Text container - 20% height */}
       <div className='flex-[0.19] w-full py-3 overflow-hidden'>
         <div className='flex justify-between'>
           <h2 className='text-2xl font-bold truncate capitalize'>

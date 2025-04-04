@@ -219,7 +219,7 @@ import {WheelGesturesPlugin} from "embla-carousel-wheel-gestures";
 const DiscoverPageLayout = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [carouselApi, setCarouselApi] = useState(null);
+  const [carouselApi, setCarouselApi] = useState<any>(null);
 
   useEffect(() => {
     if (!carouselApi) return;
