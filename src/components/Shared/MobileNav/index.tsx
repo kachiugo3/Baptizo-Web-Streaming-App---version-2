@@ -66,7 +66,7 @@ const MobileNav = () => {
   return (
     <>
       {isMobile && (
-        <div className='absolute bottom-0 border-t !border-t-slate-200 dark:!border-t-slate-600 w-full py-5 px-6 flex flex-1 items-center justify-between h-[80px]'>
+        <div className='z-40 fixed bottom-0 bg-background  border-t !border-t-slate-200 dark:!border-t-slate-600 w-full py-5 px-6 flex flex-1 items-center justify-between h-[80px]'>
           {navItems.map((project, idx) => (
             <Link
               key={idx}
@@ -101,7 +101,7 @@ const MobileNav = () => {
                         : resolvedTheme === "dark" && !project.isActive
                         ? "!stroke-white fill-transparent"
                         : resolvedTheme === "light" && project.isActive
-                        ? "!stroke-black fill-black"
+                        ? "!stroke-black fill-transparent"
                         : "stroke-[#494E56] !fill-transparent"
                     } 
                     'stroke-[1.5]' transition-all duration-300 ease-in-out`}
