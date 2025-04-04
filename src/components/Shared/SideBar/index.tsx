@@ -129,24 +129,49 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                     project.isActive
                       ? "!bg-[#02FE0A] p-2 !rounded-full"
                       : "hover:!bg-inherit"
-                  }`}
+                  } transition-all duration-100 ease-in-out relative overflow-hidden`}
                 >
-                  <div className='w-full flex !items-center'>
+                  {/* Background transition effect - left to right */}
+                  <div
+                    className={`
+                      absolute inset-0 bg-[#02FE0A] rounded-full 
+                      transition-all duration-200 ease-in-out
+                      ${project.isActive ? "w-full" : "w-0"}
+                    `}
+                    style={{zIndex: 0, transformOrigin: "left center"}}
+                  >
+                    {" "}
+                  </div>
+
+                  <div
+                    className='w-full flex !items-center relative'
+                    style={{zIndex: 1}}
+                  >
                     <div className=" className='!h-8 !w-8'">
                       <project.icon
                         className={`${project.isActive && "w-5 h-5 mr-1"} ${
                           resolvedTheme === "dark" && project.isActive
-                            ? "fill-black stroke-alert-success-200 "
+                            ? "fill-black  stroke-green-400 "
                             : resolvedTheme === "dark" && !project.isActive
                             ? "!stroke-white fill-transparent"
                             : resolvedTheme === "light" && project.isActive
                             ? "!stroke-black fill-black"
                             : "stroke-[#494E56] !fill-transparent"
-                        }'stroke-[1.5]'`}
+                        }'!stroke-[1.5]'  ${
+                          project.title === "AudioBooks" &&
+                          project.isActive &&
+                          "!w-4 !h-5"
+                        } transition-all duration-300 ease-in-out`}
                       />
                     </div>
                     {project.isActive && (
-                      <span className='text-xs dark:text-black'>
+                      <span
+                        className={`text-xs dark:text-black ${
+                          project.title === "AudioBooks" && "!text-[10px]"
+                        } ${
+                          project.isActive && "!font-semibold"
+                        } transition-opacity duration-300 ease-in-out`}
+                      >
                         {project.title}
                       </span>
                     )}
