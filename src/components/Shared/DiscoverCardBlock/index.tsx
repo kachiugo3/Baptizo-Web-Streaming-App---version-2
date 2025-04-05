@@ -5,7 +5,6 @@ import React from "react";
 const DiscoverCardBlock = () => {
   return (
     <div className='h-full !w-full flex flex-col'>
-      {/* Image container - 80% height */}
       {/* <div className='flex-[0.80] min-h-0 w-full rounded-lg border overflow-hidden'>
         <div className='relative !w-full !h-full'>
           <img
@@ -35,8 +34,8 @@ const DiscoverCardBlock = () => {
       >
         <div className='w-full h-full'></div>
 
-        <div className='flex items-center !cursor-pointer justify-center w-12 h-12 absolute rounded-full bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-          <Play className='fill-black' />
+        <div className='flex items-center !cursor-pointer justify-center w-12 h-12 absolute rounded-full bg-green-200  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+          <Play className='fill-black stroke-black' size={20} />
         </div>
 
         <div className='flex items-center !cursor-pointer justify-center w-12 h-12 absolute rounded-full bg-white right-9 top-4'>

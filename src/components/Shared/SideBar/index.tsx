@@ -147,21 +147,6 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                     style={{zIndex: 1}}
                   >
                     <div className=" className='!h-8 !w-8'">
-                      {/* <project.icon
-                        className={`${project.isActive && "w-5 h-5 mr-1"} ${
-                          resolvedTheme === "dark" && project.isActive
-                            ? "fill-black  stroke-green-400 "
-                            : resolvedTheme === "dark" && !project.isActive
-                            ? "!stroke-white fill-transparent"
-                            : resolvedTheme === "light" && project.isActive
-                            ? "!stroke-black fill-black"
-                            : "stroke-[#494E56] !fill-transparent"
-                        }'!stroke-[1.5]'  ${
-                          project.title === "AudioBooks" &&
-                          project.isActive &&
-                          "!w-4 !h-5"
-                        } transition-all duration-300 ease-in-out`}
-                      /> */}
                       <project.icon
                         className={`
                           transition-all duration-300 ease-in-out !stroke-[1.5]
