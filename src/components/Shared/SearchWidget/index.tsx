@@ -3,6 +3,7 @@
 import React, {ReactNode} from "react";
 import TextField from "@/components/Form/Elements/TextField";
 import {Search} from "lucide-react";
+import {cn} from "@/lib/utils";
 
 interface SearchWidgetProps {
   searchQuery: string;
@@ -12,6 +13,7 @@ interface SearchWidgetProps {
   textFieldClassName?: string;
   beforeChildren?: ReactNode;
   afterChildren?: ReactNode;
+  childrenClass?: string;
 }
 
 const SearchWidget = ({
@@ -22,6 +24,7 @@ const SearchWidget = ({
   textFieldClassName = "h-10 w-[65vw] lg:w-[700px]",
   beforeChildren,
   afterChildren,
+  childrenClass,
 }: SearchWidgetProps) => {
   const searchField = (
     <TextField
@@ -36,7 +39,9 @@ const SearchWidget = ({
   return (
     <div className={className}>
       {beforeChildren}
-      <div className='flex items-center justify-between mt-2'>
+      <div
+        className={cn("flex items-center justify-between mt-2", childrenClass)}
+      >
         {searchField}
         {afterChildren}
       </div>

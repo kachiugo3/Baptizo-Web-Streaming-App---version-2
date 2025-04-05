@@ -51,7 +51,7 @@ const DiscoverCardBlock = () => {
           </h2>
           <Share2 />
         </div>
-        <p className='text-sm line-clamp-2 text-[#494E56] text-[18px]'>
+        <p className='text-sm line-clamp-2 text-[#494E56] dark:text-[#b2afaf] text-[18px]'>
           Sachel hartman
         </p>
         <div className='flex items-center gap-x-2 mt-1 z-[9999]'>
@@ -62,7 +62,7 @@ const DiscoverCardBlock = () => {
           ))}
           <span className='text-sm text-foreground font-medium'>4.5</span>
 
-          <span className='text-sm text-[#494E56] font-medium'>
+          <span className='text-sm  text-[#494E56] dark:text-[#b2afaf] font-medium'>
             (30 reviews)
           </span>
         </div>
