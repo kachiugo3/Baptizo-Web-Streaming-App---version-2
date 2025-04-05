@@ -33,19 +33,6 @@ const DiscoverPageLayout = () => {
     };
   }, [carouselApi]);
 
-  // Use useMemo to compute item classes based on the current index
-  // const getItemClass = useMemo(() => {
-  //   return (idx) => {
-  //     const baseClass = "transition-all duration-300";
-  //     const activeClass = "opacity-100 visible";
-  //     const inactiveClass = "opacity-0 invisible";
-
-  //     return `${baseClass} ${
-  //       currentIndex === idx ? activeClass : inactiveClass
-  //     }`;
-  //   };
-  // }, [currentIndex]);
-
   const tabList = [
     {
       text: "Audio Books",
@@ -63,7 +50,7 @@ const DiscoverPageLayout = () => {
 
   return (
     <div className='!w-full'>
-      <h3 className='mb-1 font-semibold text-lg'>Discover</h3>
+      {/* <h3 className='mb-1 font-semibold text-lg'>Discover</h3> */}
       <SearchWidget
         className='flex-col lg:flex-row gap-2 mb-3'
         searchQuery={searchQuery}

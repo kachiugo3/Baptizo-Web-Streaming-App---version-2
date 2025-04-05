@@ -90,22 +90,6 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
     [pathName],
   );
 
-  let src;
-  switch (resolvedTheme) {
-    case "light":
-      src =
-        "https://res.cloudinary.com/dgfsobn9i/image/upload/v1743607977/Baptizo/baptizo_light_lso6yv.webp";
-      break;
-    case "dark":
-      src =
-        "https://res.cloudinary.com/dgfsobn9i/image/upload/v1743607952/Baptizo/baptizo_dark_gi9yxb.webp";
-      break;
-    default:
-      src =
-        "https://res.cloudinary.com/dgfsobn9i/image/upload/v1743607952/Baptizo/baptizo_dark_gi9yxb.webp";
-      break;
-  }
-
   if (!renderUI) return null;
 
   return (
@@ -115,7 +99,22 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
       className='py-[30px] px-4 !overflow-hidden hideScrollBar !border-r-slate-200 dark:!border-r-[#403f3f9f] '
     >
       <SidebarHeader className='flex items-center justify-between '>
-        <Image src={src} alt='baptizo_logo' width='32' height='35' />
+        <Image
+          src='/svg/baptizo_light_svg.svg'
+          className='dark:hidden block'
+          alt='baptizo_light_logo'
+          width={32}
+          height={32}
+          priority
+        />
+        <Image
+          src='/svg/baptizo_dark_svg.svg'
+          className='hidden dark:block'
+          alt='baptizo_dark_logo'
+          width={32}
+          height={32}
+          priority
+        />
       </SidebarHeader>
 
       <SidebarContent className='mt-[117px]'>
@@ -148,7 +147,7 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                     style={{zIndex: 1}}
                   >
                     <div className=" className='!h-8 !w-8'">
-                      <project.icon
+                      {/* <project.icon
                         className={`${project.isActive && "w-5 h-5 mr-1"} ${
                           resolvedTheme === "dark" && project.isActive
                             ? "fill-black  stroke-green-400 "
@@ -162,6 +161,22 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                           project.isActive &&
                           "!w-4 !h-5"
                         } transition-all duration-300 ease-in-out`}
+                      /> */}
+                      <project.icon
+                        className={`
+                          transition-all duration-300 ease-in-out !stroke-[1.5]
+                          ${project.isActive ? "w-5 h-5 mr-1" : ""}
+                          ${
+                            project.title === "AudioBooks" && project.isActive
+                              ? "!w-4 !h-5"
+                              : ""
+                          }
+                          ${
+                            project.isActive
+                              ? "dark:!stroke-green-400 dark:fill-black stroke-green-300 fill-black !stroke-[1.5]"
+                              : "dark:!stroke-white dark:fill-transparent stroke-[#494E56] fill-transparent !stroke-[1.5]"
+                          }
+                        `}
                       />
                     </div>
                     {project.isActive && (

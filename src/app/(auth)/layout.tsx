@@ -9,7 +9,7 @@ const AuthLayout = ({children}: {children: React.ReactNode}) => {
             <div className='xl:w-3/6 w-full hideScrollBar flex items-center h-full'>
               {children}
             </div>
-            {/**Carousel Part */}
+
             <AuthCarousel />
           </div>
         </main>

@@ -5,8 +5,7 @@ import SearchWidget from "@/components/Shared/SearchWidget";
 import SqDisplyCards from "@/components/Shared/SqDisplayCards";
 import SubtitleBlock from "@/components/Shared/SubtitleBlock";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {ArrowRight, Bell, Star} from "lucide-react";
-import Image from "next/image";
+import {Bell} from "lucide-react";
 import React, {useState} from "react";
 
 const HomeLayout = () => {
@@ -44,7 +43,7 @@ const HomeLayout = () => {
 
   return (
     <div>
-      <h3 className='mb-1 font-semibold text-lg'>Home</h3>
+      {/* <h3 className='mb-1 font-semibold text-lg'>Home</h3> */}
       <SearchWidget
         className='grid grid-cols-1 xl:grid-cols-3 gap-2 mb-3'
         childrenClass='col-span-2'

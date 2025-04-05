@@ -74,7 +74,11 @@ export function GlobalProvider({children}: {children: React.ReactNode}) {
           <GoogleOAuthProvider
             clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
           >
-            <div className='relative min-h-screen overflow-x-hidden'>
+            <div
+              className={`relative overflow-x-hidden ${
+                isLoading ? "!max-h-[100dvh]" : "h-auto"
+              }`}
+            >
               <div
                 className={`absolute inset-0 z-50 transition-opacity duration-500 ease-in-out ${
                   isLoading ? "opacity-100 " : "opacity-0 pointer-events-none"

@@ -82,9 +82,9 @@ const AuthCarousel = () => {
               key={idx}
               className={`${
                 Number(current) == Number(idx + 1)
-                  ? "bg-alert-error-100 w-16"
+                  ? "bg-alert-error-100 dark:bg-green-500 w-16"
                   : "bg-white w-5"
-              } h-1 bg-accent rounded-md`}
+              } h-1 bg-accent  rounded-md`}
             ></div>
           ))}
         </div>
