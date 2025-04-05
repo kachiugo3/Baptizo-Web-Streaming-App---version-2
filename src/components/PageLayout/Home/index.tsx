@@ -44,6 +44,7 @@ const HomeLayout = () => {
 
   return (
     <div>
+      <h3 className='mb-1 font-semibold text-lg'>Home</h3>
       <SearchWidget
         className='grid grid-cols-1 xl:grid-cols-3 gap-2 mb-3'
         childrenClass='col-span-2'

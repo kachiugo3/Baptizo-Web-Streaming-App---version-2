@@ -63,7 +63,7 @@ const DiscoverPageLayout = () => {
 
   return (
     <div className='!w-full'>
-      <p className='mb-1 font-semibold text-lg'>Discover</p>
+      <h3 className='mb-1 font-semibold text-lg'>Discover</h3>
       <SearchWidget
         className='flex-col lg:flex-row gap-2 mb-3'
         searchQuery={searchQuery}

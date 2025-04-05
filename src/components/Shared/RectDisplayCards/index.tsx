@@ -6,18 +6,18 @@ import React from "react";
 
 const RectangularCards = () => {
   return (
-    <div className='bg-white dark:bg-[#393D43] rounded-md p-3 flex gap-x-1 w-full'>
-      <div className='w-2/5'>
+    <div className='bg-white dark:bg-[#393D43] rounded-md p-3 flex flex-col lg:flex-row gap-x-1 w-full'>
+      <div className='w-full lg:w-2/5'>
         <Image
           src='https://res.cloudinary.com/dgfsobn9i/image/upload/v1743779808/Baptizo/podcast_img_eitdzw.png'
           alt='img'
           priority
-          width={150}
-          height={150}
+          width={200}
+          height={200}
           className='rounded-md object-cover object-center'
         />
       </div>
-      <div className='w-3/5'>
+      <div className='w-full lg:w-3/5'>
         <p className='text-lg font-semibold text-foreground'>The Great Gasby</p>
 
         <p className='text-[#494E56] dark:text-[#D0D0D0] text-sm'>
