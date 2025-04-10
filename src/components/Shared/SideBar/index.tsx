@@ -22,17 +22,23 @@ import {
   LibraryIcon,
   ProfileIcon,
 } from "../Icons";
-import {usePathname, useRouter} from "next/navigation";
-import {useMemo} from "react";
+import {usePathname} from "next/navigation";
+import {useEffect, useMemo, useState} from "react";
 import {ModeToggle} from "../ThemeSwitcher";
 import {Logout} from "@/api/authActions";
-import {useAppContext} from "@/context/AuthContext";
 import {useMutation} from "@tanstack/react-query";
+import {useTheme} from "next-themes";
 
 export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
+  const [renderUI, setRenderUI] = useState(false);
   const pathName = usePathname();
-  const {dispatch} = useAppContext();
-  const router = useRouter();
+  const {resolvedTheme} = useTheme();
+
+  useEffect(() => {
+    if (resolvedTheme) {
+      setRenderUI(true);
+    }
+  }, [resolvedTheme]);
 
   const {mutate} = useMutation({
     mutationFn: Logout,
@@ -84,6 +90,8 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
     [pathName],
   );
 
+  if (!renderUI) return null;
+
   return (
     <Sidebar
       collapsible='icon'
@@ -92,10 +100,20 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
     >
       <SidebarHeader className='flex items-center justify-between '>
         <Image
-          src='/img/baptizo_light.webp'
-          alt='baptizo_logo'
-          width='32'
-          height='35'
+          src='/svg/baptizo_light_svg.svg'
+          className='dark:hidden block'
+          alt='baptizo_light_logo'
+          width={32}
+          height={32}
+          priority
+        />
+        <Image
+          src='/svg/baptizo_dark_svg.svg'
+          className='hidden dark:block'
+          alt='baptizo_dark_logo'
+          width={32}
+          height={32}
+          priority
         />
       </SidebarHeader>
 
@@ -107,17 +125,53 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
                 <Link
                   href={project.url}
                   className={`${
-                    project.isActive ? "!bg-[#02FE0A] p-2 !rounded-full" : ""
-                  }`}
+                    project.isActive
+                      ? "!bg-[#02FE0A] p-2 !rounded-full"
+                      : "hover:!bg-inherit"
+                  } transition-all duration-100 ease-in-out relative overflow-hidden`}
                 >
-                  <div className='w-full flex items-center'>
+                  {/* Background transition effect - left to right */}
+                  <div
+                    className={`
+                      absolute inset-0 bg-[#02FE0A] rounded-full 
+                      transition-all duration-200 ease-in-out
+                      ${project.isActive ? "w-full" : "w-0"}
+                    `}
+                    style={{zIndex: 0, transformOrigin: "left center"}}
+                  >
+                    {" "}
+                  </div>
+
+                  <div
+                    className='w-full flex !items-center relative'
+                    style={{zIndex: 1}}
+                  >
                     <div className=" className='!h-8 !w-8'">
                       <project.icon
-                        className={`${project.isActive && "w-5 h-5 mr-1 "}`}
+                        className={`
+                          transition-all duration-300 ease-in-out !stroke-[1.5]
+                          ${project.isActive ? "w-5 h-5 mr-1" : ""}
+                          ${
+                            project.title === "AudioBooks" && project.isActive
+                              ? "!w-4 !h-5"
+                              : ""
+                          }
+                          ${
+                            project.isActive
+                              ? "dark:!stroke-green-400 dark:fill-black stroke-green-300 fill-black !stroke-[1.5]"
+                              : "dark:!stroke-white dark:fill-transparent stroke-[#494E56] fill-transparent !stroke-[1.5]"
+                          }
+                        `}
                       />
                     </div>
                     {project.isActive && (
-                      <span className='text-xs dark:text-black'>
+                      <span
+                        className={`text-xs dark:text-black ${
+                          project.title === "AudioBooks" && "!text-[10px]"
+                        } ${
+                          project.isActive && "!font-semibold"
+                        } transition-opacity duration-300 ease-in-out`}
+                      >
                         {project.title}
                       </span>
                     )}
